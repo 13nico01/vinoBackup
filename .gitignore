@@ -7,7 +7,6 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
 dist
 dist-ssr
 *.local
@@ -25,7 +24,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-/vinoventure_database/vinoventure.db
 /.idea
-/vinoventure_web/frontend/node_modules
-/vinoventure_backend/node_modules
