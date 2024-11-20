@@ -15,4 +15,4 @@ RUN chmod +x /wait-for-it.sh
 EXPOSE 3000
 
 # Verwende wait-for-it, um sicherzustellen, dass MySQL bereit ist, bevor der Backend-Service startet
-CMD ["./wait-for-it.sh", "db:3306", "--", "npm", "start"]
+CMD ["npm", "start"]

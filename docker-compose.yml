@@ -3,7 +3,7 @@ services:
   backend:
     build:
       context: ./vinoventure_backend # Pfad zum Backend
-      dockerfile: Dockerfile # Das Dockerfile wird verwendet, um das Image zu erstellen
+      dockerfile: Dockerfile # Dockerfile für das Backend
     ports:
       - "3000:3000" # Portweiterleitung
     volumes:
@@ -15,7 +15,8 @@ services:
       DB_USER: root
       DB_PASSWORD: yourpassword
       DB_DATABASE: vinoventure
-    command: [ "npm", "start" ] # Stelle sicher, dass direkt "npm start" ausgeführt wird
+    # Starte das wait-for-it Skript, um auf die DB zu warten, bevor npm start ausgeführt wird
+    command: [ "./wait-for-it.sh", "db:3306", "--", "npm", "start" ]
 
   db:
     image: mysql:8
