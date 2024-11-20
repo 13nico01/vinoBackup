@@ -1,13 +1,15 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Home from "./pages/Home";
-import Shop from "./pages/Shop";
+import ProductDetails from "./pages/ProductDetails";
 import NoPage from "./pages/NoPage";
 import About from "./pages/About";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Products from "./pages/Products";
+import { CartProvider } from "./components/ShopComponents/CartContext";
 
 const App = () => {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
@@ -30,32 +32,35 @@ const App = () => {
   }
 
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Public Routes */}
-        <Route index element={<Home />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/shop" element={<Shop />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="register" element={<Register />} />
-        <Route path="/admin" element={<AdminLogin onLogin={handleLogin} />} />
+    <CartProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* Public Routes */}
+          <Route index element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/shop" element={<Products />} />
+          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/admin" element={<AdminLogin onLogin={handleLogin} />} />
 
-        {/* Protected Route */}
-        <Route
-          path="/admin-dashboard"
-          element={
-            isAdminLoggedIn ? <AdminDashboard /> : <Navigate to="/admin" />
-          }
-        />
+          {/* Protected Route */}
+          <Route
+            path="/admin-dashboard"
+            element={
+              isAdminLoggedIn ? <AdminDashboard /> : <Navigate to="/admin" />
+            }
+          />
 
-        {/* Default Route */}
-        <Route path="/" element={<Navigate to="/home" />} />
+          {/* Default Route */}
+          <Route path="/" element={<Navigate to="/home" />} />
 
-        {/* Catch all unmatched routes */}
-        <Route path="*" element={<NoPage />} />
-      </Routes>
-    </BrowserRouter>
+          {/* Catch all unmatched routes */}
+          <Route path="*" element={<NoPage />} />
+        </Routes>
+      </BrowserRouter>
+    </CartProvider>
   );
 };
 

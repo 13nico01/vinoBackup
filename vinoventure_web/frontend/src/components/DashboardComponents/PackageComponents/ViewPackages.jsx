@@ -55,7 +55,6 @@ const ViewPackages = () => {
       "Sind Sie sicher, dass Sie diesen Datensatz löschen möchten?"
     );
     if (confirmDelete) {
-      // Führe hier einen API-Call durch, um das Paket zu löschen
       try {
         const response = await fetch(
           `http://localhost:3000/api/wine-packages/delete-package/${pkgId}`,
@@ -64,14 +63,13 @@ const ViewPackages = () => {
           }
         );
         if (response.ok) {
-          // Aktualisiere die lokale Liste der Pakete
           const updatedPackages = packages.filter(
             (pkg) => pkg.package_id !== pkgId
           );
           setPackages(updatedPackages);
           setSelectedPackage(null);
           setIsDeleteMode(false); // Löschmodus deaktivieren
-          setIsDeleteButtonActive(false); // Setze den Zustand des Löschbuttons zurück
+          setIsDeleteButtonActive(false);
         } else {
           alert("Fehler beim Löschen des Pakets.");
         }
@@ -83,25 +81,22 @@ const ViewPackages = () => {
 
   const handleRowClick = (pkg) => {
     if (isDeleteMode) {
-      // Führe die Löschaktion sofort nach der Auswahl aus
       handleDeleteClick(pkg.package_id);
     } else {
-      // Auswahl aufheben, wenn nicht im Löschmodus
       const newSelectedPackage =
         selectedPackage === pkg.package_id ? null : pkg.package_id;
       setSelectedPackage(newSelectedPackage);
-      console.log(`Selected Package ID: ${newSelectedPackage}`); // Debugging
+      console.log(`Selected Package ID: ${newSelectedPackage}`);
     }
   };
 
   const handleDeleteButtonClick = () => {
-    // Toggle the delete button state
     if (isDeleteButtonActive) {
-      setIsDeleteMode(false); // Deaktivieren des Löschmodus
-      setIsDeleteButtonActive(false); // Setze den Löschbutton zurück
+      setIsDeleteMode(false);
+      setIsDeleteButtonActive(false);
     } else {
-      setIsDeleteMode(true); // Aktivieren des Löschmodus
-      setIsDeleteButtonActive(true); // Setze den Löschbutton auf aktiv
+      setIsDeleteMode(true);
+      setIsDeleteButtonActive(true);
     }
   };
 
@@ -203,7 +198,7 @@ const ViewPackages = () => {
                   {pkg.vintner}
                 </td>
                 <td className="py-2 px-4 border-r border-black">
-                  {pkg.price.toFixed(2)} €
+                  {Number(pkg.price).toFixed(2)} €
                 </td>
                 <td className="py-2 px-4">{pkg.suitable_for_persons}</td>
               </tr>
