@@ -13,9 +13,6 @@ RUN npm install
 # Restliche Dateien kopieren
 COPY . .
 
-# Anwendung bauen (z. B. bei TypeScript-Projekten oder Build-Schritt nötig)
-RUN npm run build
-
 # Container-Port freigeben
 EXPOSE 3000
 

@@ -1,42 +1,33 @@
-version: '3.8'
-
+version: '3'
 services:
   backend:
-    build:
+    build: 
       context: ./vinoventure_backend
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
     volumes:
-      # Quellcode ins Arbeitsverzeichnis im Container mounten
-      - ./vinoventure_backend:/app
-      # Verhindert, dass das dist-Verzeichnis überschrieben wird
-      - /app/dist
+      - ./vinoventure_backend:/app  
     depends_on:
       - db
-    environment:
-      # Umgebungsvariablen für die Datenbank
+    environment:  
       DB_HOST: db
       DB_USER: root
-      DB_PASSWORD: yourpassword
+      DB_PASSWORD: yourpassword  
       DB_DATABASE: vinoventure
-    command: >
-      sh -c "npm install && npm start"
 
   db:
     image: mysql:8
-    ports:
-      - "3306:3306"
     environment:
-      # MySQL-Konfiguration
       MYSQL_ROOT_PASSWORD: yourpassword
       MYSQL_DATABASE: vinoventure
+    ports:
+      - "3306:3306"
     volumes:
-      # Datenbankdaten persistent speichern
       - db_data:/var/lib/mysql
-      # Initialisierungsskripte für die Datenbank
-      - ./vinoventure_database/script.sql:/docker-entrypoint-initdb.d/script.sql
-      - ./vinoventure_database/testData.sql:/docker-entrypoint-initdb.d/testData.sql
+      - ./vinoventure_database\script.sql:/docker-entrypoint-initdb.d/script.sql
+      - ./vinoventure_database/testData.sql:/docker-entrypoint-initdb.d/testData.sql  
+
 
 volumes:
   db_data:
