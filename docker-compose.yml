@@ -1,20 +1,21 @@
 version: '3'
 services:
   backend:
-    build: 
-      context: ./vinoventure_backend
-      dockerfile: Dockerfile
+    build:
+      context: ./vinoventure_backend # Pfad zum Backend
+      dockerfile: Dockerfile # Das Dockerfile wird verwendet, um das Image zu erstellen
     ports:
-      - "3000:3000"
+      - "3000:3000" # Portweiterleitung
     volumes:
-      - ./vinoventure_backend:/app  
+      - ./vinoventure_backend:/app # Code im Container verfügbar machen
     depends_on:
-      - db
-    environment:  
+      - db # Warten auf die DB, bevor Backend gestartet wird
+    environment:
       DB_HOST: db
       DB_USER: root
-      DB_PASSWORD: yourpassword  
+      DB_PASSWORD: yourpassword
       DB_DATABASE: vinoventure
+    command: [ "npm", "start" ] # Stelle sicher, dass direkt "npm start" ausgeführt wird
 
   db:
     image: mysql:8
@@ -25,9 +26,8 @@ services:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
-      - ./vinoventure_database\script.sql:/docker-entrypoint-initdb.d/script.sql
-      - ./vinoventure_database/testData.sql:/docker-entrypoint-initdb.d/testData.sql  
-
+      - ./vinoventure_database/script.sql:/docker-entrypoint-initdb.d/script.sql
+      - ./vinoventure_database/testData.sql:/docker-entrypoint-initdb.d/testData.sql
 
 volumes:
   db_data:
